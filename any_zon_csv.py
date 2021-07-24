@@ -6,7 +6,7 @@ csv_from_zon = glob.glob("csv_from_zon\*.csv")
 
 for file in csv_from_zon:
 
-  file_name = file.title()[13:-4]
+  file_name = file[13:-4]
 
   #reads csv file and assigns it to a dataframe
   df = pd.read_csv(file)
