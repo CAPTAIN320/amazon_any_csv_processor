@@ -1,3 +1,8 @@
+# merges processed csv with octo merchant & product csv
+# exports the merged csv
+# ecxports the merged html
+# creates a csv db of chinese seller's MerchantID
+
 import glob
 import pandas as pd
 
@@ -71,9 +76,8 @@ def export_html(merge_df):
                          "country_merchant_octo",
                          "country_product_octo"]]
     merge_df.to_html("html\\" + file_name + ".html", escape=False)
-
-
-
+    
+    
 
 csv_merchant_octo_folder = glob.glob("csv_merchant_octo\*_merchant_octo.csv")
 
@@ -94,6 +98,7 @@ for file in csv_merchant_octo_folder:
   
   csv_merchant_octo()
   merge_df = csv_product_octo()
+
   export_concantenated_csv(merge_df)
   export_ASIN_csv(merge_df)
   export_html(merge_df)

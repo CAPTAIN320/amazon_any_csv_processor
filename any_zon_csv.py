@@ -1,3 +1,7 @@
+# removes duplicate asins & brands 
+# creates merchant & product urls
+# and exports files as csv
+
 import glob
 
 import pandas as pd
