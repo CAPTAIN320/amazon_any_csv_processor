@@ -16,16 +16,17 @@ for file in csv_from_zon:
     
     file_name = file[len(filename_part[0]):-len(filename_part[1])]
     
-    print("Removing ASINs from whitelisted Merchants in : "+ file_name)
+    print("Extracting ASINs from whitelisted Merchants in : "+ file_name)
     
     df = pd.read_csv(file)
+    
     #retains only ASINs with a MerchantID
     df = df[df["MerchantID"].notnull()]
     
-    #create column to hold blaclisted boolean status
+    #create column to hold whitelisted boolean status
     df["whitelisted"] = df["MerchantID"].isin(df_merchant_whitelist["MerchantID"])
     
-    #retain rows that are not in the whitelist
+    #retain rows that are in the whitelist
     df_whitelist = df[df["whitelisted"] == True]
     
     print(df_whitelist)
