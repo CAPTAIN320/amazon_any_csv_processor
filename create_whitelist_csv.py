@@ -8,13 +8,11 @@ csv_concantenated = glob.glob(filename_wildcard)
 
 print(csv_concantenated)
 
-country = "US"
 
 whitelist_merchant_array = []
 whitelist_product_array = []
 for file in csv_concantenated:
   
-  #country = "US"
   country_array = ["US", "GB", "GR", "CA", "AU", "KR", "FR"]
 
   for country in country_array:
