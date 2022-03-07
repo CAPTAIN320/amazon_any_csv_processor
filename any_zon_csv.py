@@ -2,15 +2,27 @@
 # creates merchant & product urls
 # and exports files as csv
 
+from email.mime import base
 import glob
 
 import pandas as pd
+import os
 
-csv_from_zon = glob.glob("csv_from_zon\*.csv")
+PATH = "./csv_from_zon"
+csv_from_zon = glob.glob(PATH+"/*.csv")
+print(csv_from_zon)
+
+merchant_url_PATH = "./csv_merchant_url"
 
 for file in csv_from_zon:
 
-  file_name = file[13:-4]
+  # file_name = file[15:-4]
+  # print(file_name)
+  base_file_name = os.path.basename(file)
+  print(base_file_name)
+  file_name = os.path.splitext(base_file_name)[0]
+  print(file_name)
+
 
   #reads csv file and assigns it to a dataframe
   df = pd.read_csv(file)
@@ -40,7 +52,7 @@ for file in csv_from_zon:
 
   #datafram with only ASINs with a MerchantID
   df_merchant_id = df[df["MerchantID"].notnull()]
-  df_merchant_id["merchant_url"].to_csv("csv_merchant_url\\" + file_name + "_merchant_url.csv",
+  df_merchant_id["merchant_url"].to_csv(merchant_url_PATH+"/" + file_name + "_merchant_url.csv",
                                           index=False)
   print("exported ",df_merchant_id["merchant_url"].count()," merchant urls")
 

@@ -6,6 +6,8 @@
 import glob
 import pandas as pd
 
+import os
+
 def csv_merchant_octo():
     merchant_id_octo = []
     for url in df_merchant_octo["Page_URL"]:
@@ -50,10 +52,6 @@ def csv_product_octo():
     return merge_df
 
 
-def merge_csv(merge_df):# (ouptut_of_merchant, output_of_product)
-    print()
-
-
 def export_concantenated_csv(merge_df):
     merge_df = merge_df[["ASIN", 
                          "Brand",
@@ -61,11 +59,14 @@ def export_concantenated_csv(merge_df):
                          "MerchantID", 
                          "country_merchant_octo",
                          "country_product_octo"]]
-    merge_df.to_csv("concantenated\\" + file_name + "_concantenated.csv")
+    merge_df.to_csv("concantenated/" + file_name + "_concantenated.csv")
 
-def export_ASIN_csv(merge_df):
+def export_ASIN_csv(merge_df,
+                    concatenated_ASIN_PATH='./concantenated_ASIN_ONLY'):
     merge_df = merge_df[["ASIN"]]
-    merge_df.to_csv("concantenated_ASIN_ONLY\\" + file_name + "_concantenated_asin_only.csv",
+    # merge_df.to_csv("concantenated_ASIN_ONLY/" + file_name + "_concantenated_asin_only.csv",
+    #                 index=False)
+    merge_df.to_csv(os.path.join(concatenated_ASIN_PATH, file_name + '_concatenated_ASIN.csv'),
                     index=False)
 
 def export_html(merge_df):
@@ -75,26 +76,37 @@ def export_html(merge_df):
                          "MerchantID",
                          "country_merchant_octo",
                          "country_product_octo"]]
-    merge_df.to_html("html\\" + file_name + ".html", escape=False)
-    
-    
+    merge_df.to_html("html/" + file_name + ".html", escape=False)
 
-csv_merchant_octo_folder = glob.glob("csv_merchant_octo\*_merchant_octo.csv")
 
-for file in csv_merchant_octo_folder:
 
-  file_name = file[18:-18]
+csv_merchant_Octo_PATH = './csv_merchant_octo'
+csv_product_Octo_PATH = './csv_product_octo'
+csv_from_zon_processed_PATH='./csv_from_zon_processed'
+
+csv_files_merchant_OCTO = glob.glob(csv_merchant_Octo_PATH + "/*.csv")
+
+for file in csv_files_merchant_OCTO:
+
+  base_file_name = os.path.basename(file)
+  print(base_file_name)
+  file_name = os.path.splitext(base_file_name)[0]
+  file_name = file_name[:-14]
   
   print("Processing & Merging: "+ file_name.title())
   
-  df_zon_processed = pd.read_csv("csv_from_zon_processed\\" + file_name + "_processed.csv")
-  #print(df_zon_processed.count())
+#   df_zon_processed = pd.read_csv("csv_from_zon_processed/" + file_name + "_processed.csv")
+  df_zon_processed = pd.read_csv(os.path.join(csv_from_zon_processed_PATH, file_name + '_processed.csv'))
+  df_merchant_octo = pd.read_csv(os.path.join(csv_merchant_Octo_PATH, file_name + '_merchant_octo.csv'))
+#   print(df_zon_processed.count())
   
-  df_merchant_octo = pd.read_csv("csv_merchant_octo\\" + file_name + "_merchant_octo.csv")
-  #print(df_merchant_octo.count())
+#   df_merchant_octo = pd.read_csv("csv_merchant_octo/" + file_name + "_merchant_octo.csv")
+  df_merchant_octo = pd.read_csv(os.path.join(csv_merchant_Octo_PATH, file_name + '_merchant_octo.csv'))
+#   print(df_merchant_octo.count())
   
-  df_product_octo = pd.read_csv("csv_product_octo\\" + file_name + "_product_octo.csv")
-  #print(df_product_octo.count())
+#   df_product_octo = pd.read_csv("csv_product_octo/" + file_name + "_product_octo.csv")
+  df_product_octo = pd.read_csv(os.path.join(csv_product_Octo_PATH, file_name + '_product_octo.csv'))
+#   print(df_product_octo.count())
   
   csv_merchant_octo()
   merge_df = csv_product_octo()

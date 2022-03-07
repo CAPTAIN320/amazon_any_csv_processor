@@ -20,3 +20,5 @@ steps
 
 9. upload csv from "white_list_ASINs" folder into AIS/ATS
 
+
+

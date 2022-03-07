@@ -2,8 +2,9 @@ import glob
 import pandas as pd
 from functools import reduce
 
-filename_wildcard = "concantenated\*_concantenated.csv"
+filename_wildcard = "concantenated/*_concantenated.csv"
 filename_part = filename_wildcard.split('*')
+print(filename_part)
 csv_concantenated = glob.glob(filename_wildcard)
 
 #print(csv_concantenated)
@@ -13,6 +14,7 @@ blacklist_product_array = []
 for file in csv_concantenated:
 
   file_name = file[len(filename_part[0]):-len(filename_part[1])]
+  print(file_name)
   
   print("Extracting blacklists from: "+ file_name.title())
   
@@ -40,7 +42,7 @@ for file in csv_concantenated:
 
 
 #merge blacklist of merchant IDs
-df_blacklist_merchant_merged = reduce(lambda  left,right: pd.merge(left,
+df_blacklist_merchant_merged = reduce(lambda left,right: pd.merge(left,
                                                 right,
                                                 how='outer'),
                                        blacklist_merchant_array)
@@ -51,7 +53,7 @@ df_blacklist_merchant_merged = df_blacklist_merchant_merged.drop_duplicates(subs
                                                                             keep="first")
 
 #exports merchant blacklist as csv file
-df_blacklist_merchant_merged.to_csv("blacklist_csv\\MerchantID_blacklist.csv",
+df_blacklist_merchant_merged.to_csv("blacklist_csv/MerchantID_blacklist.csv",
                                     index=False)
 print(df_blacklist_merchant_merged)
 
@@ -68,8 +70,7 @@ df_blacklist_product_merged = df_blacklist_product_merged.drop_duplicates(subset
                                                                           keep="first")
 
 #exports Brand blacklist as csv file
-df_blacklist_product_merged.to_csv("blacklist_csv\\Brand_blacklist.csv",
+df_blacklist_product_merged.to_csv("blacklist_csv/Brand_blacklist.csv",
                                    index=False)
-
 
 

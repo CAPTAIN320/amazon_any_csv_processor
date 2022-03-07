@@ -2,7 +2,7 @@ import glob
 import pandas as pd
 from functools import reduce
 
-filename_wildcard = "concantenated\*_concantenated.csv"
+filename_wildcard = "concantenated/*_concantenated.csv"
 filename_part = filename_wildcard.split('*')
 csv_concantenated = glob.glob(filename_wildcard)
 
@@ -56,7 +56,7 @@ df_whitelist_merchant_merged = df_whitelist_merchant_merged.drop_duplicates(subs
                                                                             keep="first")
 
 #exports merchant whitelist as csv file
-df_whitelist_merchant_merged.to_csv("whitelist_csv\\MerchantID_whitelist.csv",
+df_whitelist_merchant_merged.to_csv("whitelist_csv/MerchantID_whitelist.csv",
                                     index=False)
 print(df_whitelist_merchant_merged)
 
@@ -73,7 +73,7 @@ df_whitelist_product_merged = df_whitelist_product_merged.drop_duplicates(subset
                                                                           keep="first")
 
 #exports Brand whitelist as csv file
-df_whitelist_product_merged.to_csv("whitelist_csv\\Brand_whitelist.csv",
+df_whitelist_product_merged.to_csv("whitelist_csv/Brand_whitelist.csv",
                                    index=False)
 
 
